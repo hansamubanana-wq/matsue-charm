@@ -14,16 +14,48 @@ body {
     overflow-x: hidden;
 }
 
-/* --- 背景キャンバス（金粉アニメーション用） --- */
+/* --- 無限スライダー --- */
+.slider-area {
+    width: 100%;
+    overflow: hidden;
+    background: #020617;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+}
+.slider-track {
+    display: flex;
+    width: calc(300px * 12); /* 画像の幅 × 枚数 */
+    animation: scroll-slide 40s linear infinite;
+}
+.slide {
+    width: 300px;
+    padding: 0 10px;
+}
+.slide img {
+    width: 100%;
+    border-radius: 4px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+    border: 1px solid var(--accent-color);
+}
+.slide img:hover { opacity: 1; }
+
+@keyframes scroll-slide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-300px * 6)); } /* 画像の半分の幅分移動 */
+}
+
+
+/* --- 背景キャンバス --- */
 #bg-canvas {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    z-index: -10; /* 一番後ろへ */
+    z-index: -10;
     pointer-events: none;
 }
 
-/* --- オープニング（幕が開く演出） --- */
+/* --- オープニング --- */
 #loading {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -31,10 +63,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none; /* クリック透過 */
+    pointer-events: none;
 }
-
-/* 左の幕 */
 .curtain-left {
     position: absolute;
     top: 0; left: 0; width: 50%; height: 100%;
@@ -42,7 +72,6 @@ body {
     transition: transform 1.5s ease-in-out;
     border-right: 1px solid rgba(255,255,255,0.1);
 }
-/* 右の幕 */
 .curtain-right {
     position: absolute;
     top: 0; right: 0; width: 50%; height: 100%;
@@ -50,7 +79,6 @@ body {
     transition: transform 1.5s ease-in-out;
     border-left: 1px solid rgba(255,255,255,0.1);
 }
-/* ロゴ */
 .logo {
     position: relative;
     font-size: 2rem;
@@ -59,17 +87,13 @@ body {
     z-index: 10000;
     transition: opacity 1s ease;
 }
-
-/* 読み込み完了時のクラス */
 #loading.loaded .curtain-left { transform: translateX(-100%); }
 #loading.loaded .curtain-right { transform: translateX(100%); }
 #loading.loaded .logo { opacity: 0; }
 
-
-/* --- 以下、既存スタイル --- */
+/* --- 共通スタイル --- */
 .en { display: none; }
 .ja { display: block; }
-
 body.en-mode .en { display: block; }
 body.en-mode .ja { display: none; }
 body.en-mode .tategaki-main,
@@ -235,7 +259,8 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
 .hero-bg {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1545652973-2d2f7f9f06c1?q=80&w=2070&auto=format&fit=crop');
+    /* ヒーロー画像もプレースホルダーに変更 */
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://placehold.co/1920x1080/1e293b/c5a059?text=Matsue+City+Hero+Image');
     background-size: cover;
     background-position: center;
     animation: zoomIn 20s infinite alternate;

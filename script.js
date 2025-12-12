@@ -1,25 +1,20 @@
 window.addEventListener('load', () => {
     // 幕が開くアニメーション開始
     const loading = document.getElementById('loading');
-    // 少し待ってから開く
     setTimeout(() => {
         loading.classList.add('loaded');
     }, 500);
-
-    // 開ききったらloading要素自体を非表示（裏で邪魔しないように）
     setTimeout(() => {
         loading.style.display = 'none';
     }, 2500);
 });
 
-// ▼▼▼ 背景の粒子アニメーション（今回の目玉！） ▼▼▼
+// 背景の粒子アニメーション
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
-
 let width, height;
 let particles = [];
 
-// 画面サイズに合わせてキャンバスの大きさを設定
 function resize() {
     width = window.innerWidth;
     height = window.innerHeight;
@@ -29,25 +24,21 @@ function resize() {
 window.addEventListener('resize', resize);
 resize();
 
-// 粒子の設計図
 class Particle {
     constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.size = Math.random() * 2 + 0.5; // 粒の大きさ
-        this.speedY = Math.random() * 0.5 + 0.2; // 上に登るスピード
-        this.color = 'rgba(197, 160, 89, ' + (Math.random() * 0.5 + 0.1) + ')'; // 金色（半透明）
+        this.size = Math.random() * 2 + 0.5;
+        this.speedY = Math.random() * 0.5 + 0.2;
+        this.color = 'rgba(197, 160, 89, ' + (Math.random() * 0.5 + 0.1) + ')';
     }
-
     update() {
-        this.y -= this.speedY; // 上へ移動
-        // 画面の上に行ったら下に戻る
+        this.y -= this.speedY;
         if (this.y < 0) {
             this.y = height;
             this.x = Math.random() * width;
         }
     }
-
     draw() {
         ctx.fillStyle = this.color;
         ctx.beginPath();
@@ -56,7 +47,6 @@ class Particle {
     }
 }
 
-// 粒子を100個作る
 function initParticles() {
     particles = [];
     for (let i = 0; i < 80; i++) {
@@ -65,9 +55,8 @@ function initParticles() {
 }
 initParticles();
 
-// アニメーションループ
 function animate() {
-    ctx.clearRect(0, 0, width, height); // 画面をクリア
+    ctx.clearRect(0, 0, width, height);
     particles.forEach(p => {
         p.update();
         p.draw();
@@ -77,8 +66,7 @@ function animate() {
 animate();
 
 
-// ▼▼▼ 以下、既存の機能 ▼▼▼
-
+// Intersection Observer
 const observerOptions = {
     root: null, rootMargin: '0px', threshold: 0.2
 };
@@ -94,6 +82,7 @@ document.querySelectorAll('.feature, .map-section').forEach(section => {
     observer.observe(section);
 });
 
+// ハンバーガーメニュー
 const hamburger = document.querySelector('.hamburger');
 const nav = document.querySelector('.global-nav');
 const navLinks = document.querySelectorAll('.global-nav a');
@@ -108,6 +97,7 @@ navLinks.forEach(link => {
     });
 });
 
+// プログレスバー & トップへ戻る
 const progressBar = document.getElementById('progress-bar');
 const backToTop = document.getElementById('back-to-top');
 window.addEventListener('scroll', () => {
@@ -122,6 +112,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
+// ライトボックス
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
 const featureImgs = document.querySelectorAll('.feature-img');
@@ -140,6 +131,7 @@ lightbox.addEventListener('click', (e) => {
     }
 });
 
+// 言語切り替え
 const langSwitch = document.getElementById('lang-switch');
 const body = document.body;
 langSwitch.addEventListener('click', () => {
