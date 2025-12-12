@@ -14,7 +14,32 @@ body {
     overflow-x: hidden;
 }
 
-/* --- 無限スライダー（ここを修正！） --- */
+/* ▼▼▼ 【追加】カスタムスクロールバー ▼▼▼ */
+/* Chrome, Safari, Edge用 */
+::-webkit-scrollbar {
+    width: 8px; /* バーの太さ */
+}
+::-webkit-scrollbar-track {
+    background: #020617; /* トラックの背景色 */
+}
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color); /* つまみの色（金色） */
+    border-radius: 4px; /* 丸み */
+}
+/* Firefox用 */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) #020617;
+}
+
+/* ▼▼▼ 【追加】テキスト選択時の色 ▼▼▼ */
+::selection {
+    background: var(--accent-color); /* 金色の背景 */
+    color: #000; /* 黒文字 */
+}
+
+
+/* --- 無限スライダー --- */
 .slider-area {
     width: 100%;
     overflow: hidden;
@@ -33,8 +58,8 @@ body {
 }
 .slide img {
     width: 100%;
-    height: 200px;      /* 【追加】高さを200pxに固定 */
-    object-fit: cover;  /* 【追加】枠に合わせて自動で切り取る */
+    height: 200px;
+    object-fit: cover;
     border-radius: 4px;
     opacity: 0.8;
     transition: opacity 0.3s;
@@ -153,7 +178,7 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     cursor: pointer;
 }
 
-/* --- 画像のパララックス効果 --- */
+/* --- 画像のパララックス効果 + 3D Tilt --- */
 .feature-img {
     width: 50%;
     height: 400px;
@@ -164,10 +189,15 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     background-color: #334155;
     position: relative;
     cursor: pointer;
-    transition: transform 0.3s;
+    /* transition: transform 0.3s; を削除（JSで制御するため） */
     background-attachment: fixed;
+
+    /* ▼▼▼ 【追加】3D表現のための設定 ▼▼▼ */
+    perspective: 1000px; /* 奥行きの深さ */
+    transform-style: preserve-3d; /* 3D変換を有効に */
+    will-change: transform; /* パフォーマンス最適化 */
 }
-.feature-img:hover { transform: scale(1.02); }
+/* .feature-img:hover { transform: scale(1.02); } も削除 */
 .zoom-icon {
     position: absolute;
     bottom: 10px; right: 10px;
@@ -176,6 +206,8 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     border-radius: 4px;
     opacity: 0;
     transition: opacity 0.3s;
+    /* zoom-iconが3D変換の影響を受けないように少し前に出す */
+    transform: translateZ(20px); 
 }
 .feature-img:hover .zoom-icon { opacity: 1; }
 
@@ -267,7 +299,6 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     align-items: center;
     overflow: hidden;
 }
-/* hero-bg のスタイルは HTML側の style="" が優先されるのでここは基本設定のみ */
 .hero-bg {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -280,7 +311,6 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     display: flex;
     gap: 2rem;
     z-index: 1;
-    /* 【追加】文字に影をつけて読みやすくする */
     text-shadow: 0 4px 15px rgba(0,0,0,0.8); 
 }
 
@@ -289,7 +319,6 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     font-size: 4rem;
     letter-spacing: 0.2em;
     margin: 0;
-    /* text-shadow は .hero-content でまとめてかけるので削除してもOKですが残しておきます */
 }
 .tategaki-sub {
     writing-mode: vertical-rl;
@@ -383,7 +412,8 @@ footer {
     .tategaki-main { font-size: 2.5rem; }
     .feature, .feature-reverse { flex-direction: column; gap: 2rem; }
     .feature-img, .feature-text { width: 100%; }
-    .feature-img { background-attachment: scroll; }
+    /* スマホでは3D効果とパララックスを解除 */
+    .feature-img { background-attachment: scroll; transform: none !important; }
     .split-text span.ja span { transform: none; transition: opacity 0.6s; }
     .feature.visible .split-text span.ja span { opacity: 1; }
 }

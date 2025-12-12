@@ -59,20 +59,44 @@ function animate() {
 }
 animate();
 
-
-// ▼▼▼ 【修正ポイント】文字にアニメーションの遅延をつける ▼▼▼
 const splitTexts = document.querySelectorAll('.split-text .ja');
 splitTexts.forEach(textBlock => {
-    // 各ブロックの中の文字（span）を取得
     const chars = textBlock.querySelectorAll('span');
     chars.forEach((char, index) => {
-        // 一文字ごとに0.05秒ずつ遅らせる
         char.style.transitionDelay = `${index * 0.05}s`;
     });
 });
 
+// ▼▼▼ 【追加】3D Tilt Effect の処理 ▼▼▼
+const tiltImages = document.querySelectorAll('.feature-img');
+tiltImages.forEach(img => {
+    img.addEventListener('mousemove', (e) => {
+        // 画像の中心からのマウス位置を計算
+        const rect = img.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        // 中心を0とした座標に変換
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const deltaX = x - centerX;
+        const deltaY = y - centerY;
+        // 傾きの角度を計算（数字を変えると傾き具合が変わる）
+        const rotateX = (deltaY / centerY) * -10; // 上下
+        const rotateY = (deltaX / centerX) * 10;  // 左右
 
-// Intersection Observer
+        // スタイルを適用（少し拡大して浮き上がらせる）
+        img.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        img.style.transition = 'transform 0.1s'; // 滑らかに追従
+    });
+
+    // マウスが外れたら元に戻す
+    img.addEventListener('mouseleave', () => {
+        img.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        img.style.transition = 'transform 0.5s ease-out'; // ふわっと戻る
+    });
+});
+
+
 const observerOptions = {
     root: null, rootMargin: '0px', threshold: 0.2
 };
@@ -123,9 +147,7 @@ featureImgs.forEach(img => {
     img.addEventListener('click', () => {
         const style = window.getComputedStyle(img);
         const bgImage = style.backgroundImage;
-        // URLの形式が変わるので、抽出方法を調整
         let url = bgImage.replace('url("', '').replace('")', '');
-        // ダミー画像の場合はそのまま、もし実画像でサイズ指定があれば削除
         url = url.replace(/ixlib=.*$/, ''); 
         lightboxImg.src = url;
         lightbox.classList.add('active');
