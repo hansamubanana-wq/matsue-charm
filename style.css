@@ -24,7 +24,7 @@ body {
 }
 .slider-track {
     display: flex;
-    width: calc(300px * 12); /* 画像の幅 × 枚数 */
+    width: calc(300px * 12);
     animation: scroll-slide 40s linear infinite;
 }
 .slide {
@@ -42,9 +42,8 @@ body {
 
 @keyframes scroll-slide {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-300px * 6)); } /* 画像の半分の幅分移動 */
+    100% { transform: translateX(calc(-300px * 6)); }
 }
-
 
 /* --- 背景キャンバス --- */
 #bg-canvas {
@@ -259,8 +258,8 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
 .hero-bg {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    /* ヒーロー画像もプレースホルダーに変更 */
-    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://placehold.co/1920x1080/1e293b/c5a059?text=Matsue+City+Hero+Image');
+    /* 【修正ポイント】文字のないダミー画像URLに変更しました */
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://placehold.co/1920x1080/1e293b/1e293b');
     background-size: cover;
     background-position: center;
     animation: zoomIn 20s infinite alternate;
