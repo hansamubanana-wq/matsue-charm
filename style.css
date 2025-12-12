@@ -14,7 +14,7 @@ body {
     overflow-x: hidden;
 }
 
-/* --- 無限スライダー --- */
+/* --- 無限スライダー（ここを修正！） --- */
 .slider-area {
     width: 100%;
     overflow: hidden;
@@ -33,6 +33,8 @@ body {
 }
 .slide img {
     width: 100%;
+    height: 200px;      /* 【追加】高さを200pxに固定 */
+    object-fit: cover;  /* 【追加】枠に合わせて自動で切り取る */
     border-radius: 4px;
     opacity: 0.8;
     transition: opacity 0.3s;
@@ -151,7 +153,7 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     cursor: pointer;
 }
 
-/* --- 【修正ポイント】画像のパララックス効果 --- */
+/* --- 画像のパララックス効果 --- */
 .feature-img {
     width: 50%;
     height: 400px;
@@ -163,7 +165,6 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     position: relative;
     cursor: pointer;
     transition: transform 0.3s;
-    /* これが奥行きを出す魔法の1行 */
     background-attachment: fixed;
 }
 .feature-img:hover { transform: scale(1.02); }
@@ -266,26 +267,29 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     align-items: center;
     overflow: hidden;
 }
+/* hero-bg のスタイルは HTML側の style="" が優先されるのでここは基本設定のみ */
 .hero-bg {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://placehold.co/1920x1080/1e293b/1e293b');
     background-size: cover;
     background-position: center;
-    /* ヒーロー画像も固定して奥行きを出す */
     background-attachment: fixed;
-    /* animation: zoomIn 20s infinite alternate; は固定と相性が悪いので削除 */
     z-index: -1;
 }
-
-.hero-content { display: flex; gap: 2rem; z-index: 1; }
+.hero-content {
+    display: flex;
+    gap: 2rem;
+    z-index: 1;
+    /* 【追加】文字に影をつけて読みやすくする */
+    text-shadow: 0 4px 15px rgba(0,0,0,0.8); 
+}
 
 .tategaki-main {
     writing-mode: vertical-rl;
     font-size: 4rem;
     letter-spacing: 0.2em;
     margin: 0;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    /* text-shadow は .hero-content でまとめてかけるので削除してもOKですが残しておきます */
 }
 .tategaki-sub {
     writing-mode: vertical-rl;
@@ -323,7 +327,6 @@ main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
 }
 .feature-reverse { flex-direction: row-reverse; }
 
-
 .feature-text { width: 40%; }
 .feature-text h2 {
     font-size: 2rem;
@@ -333,17 +336,15 @@ main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
     margin-bottom: 1.5rem;
 }
 
-/* --- 【修正ポイント】文字アニメーションのスタイル --- */
 .split-text span.ja span {
     display: inline-block;
     opacity: 0;
-    transform: translateY(20px) rotate(5deg); /* 初期状態：少し下で傾いて透明 */
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* バネのような動き */
+    transform: translateY(20px) rotate(5deg);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-/* 表示された時（.visibleがついた時） */
 .feature.visible .split-text span.ja span {
     opacity: 1;
-    transform: translateY(0) rotate(0deg); /* 元の位置に戻る */
+    transform: translateY(0) rotate(0deg);
 }
 
 .feature-text p {
@@ -382,9 +383,7 @@ footer {
     .tategaki-main { font-size: 2.5rem; }
     .feature, .feature-reverse { flex-direction: column; gap: 2rem; }
     .feature-img, .feature-text { width: 100%; }
-    /* スマホでは画像の固定を解除（重くなるので） */
     .feature-img { background-attachment: scroll; }
-    /* スマホでは文字アニメーションもシンプルに */
     .split-text span.ja span { transform: none; transition: opacity 0.6s; }
     .feature.visible .split-text span.ja span { opacity: 1; }
 }
