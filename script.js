@@ -1,5 +1,4 @@
 window.addEventListener('load', () => {
-    // 幕が開くアニメーション開始
     const loading = document.getElementById('loading');
     setTimeout(() => {
         loading.classList.add('loaded');
@@ -9,12 +8,10 @@ window.addEventListener('load', () => {
     }, 2500);
 });
 
-// 背景の粒子アニメーション
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let width, height;
 let particles = [];
-
 function resize() {
     width = window.innerWidth;
     height = window.innerHeight;
@@ -23,7 +20,6 @@ function resize() {
 }
 window.addEventListener('resize', resize);
 resize();
-
 class Particle {
     constructor() {
         this.x = Math.random() * width;
@@ -46,7 +42,6 @@ class Particle {
         ctx.fill();
     }
 }
-
 function initParticles() {
     particles = [];
     for (let i = 0; i < 80; i++) {
@@ -54,7 +49,6 @@ function initParticles() {
     }
 }
 initParticles();
-
 function animate() {
     ctx.clearRect(0, 0, width, height);
     particles.forEach(p => {
@@ -64,6 +58,18 @@ function animate() {
     requestAnimationFrame(animate);
 }
 animate();
+
+
+// ▼▼▼ 【修正ポイント】文字にアニメーションの遅延をつける ▼▼▼
+const splitTexts = document.querySelectorAll('.split-text .ja');
+splitTexts.forEach(textBlock => {
+    // 各ブロックの中の文字（span）を取得
+    const chars = textBlock.querySelectorAll('span');
+    chars.forEach((char, index) => {
+        // 一文字ごとに0.05秒ずつ遅らせる
+        char.style.transitionDelay = `${index * 0.05}s`;
+    });
+});
 
 
 // Intersection Observer
@@ -82,7 +88,6 @@ document.querySelectorAll('.feature, .map-section').forEach(section => {
     observer.observe(section);
 });
 
-// ハンバーガーメニュー
 const hamburger = document.querySelector('.hamburger');
 const nav = document.querySelector('.global-nav');
 const navLinks = document.querySelectorAll('.global-nav a');
@@ -97,7 +102,6 @@ navLinks.forEach(link => {
     });
 });
 
-// プログレスバー & トップへ戻る
 const progressBar = document.getElementById('progress-bar');
 const backToTop = document.getElementById('back-to-top');
 window.addEventListener('scroll', () => {
@@ -112,7 +116,6 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// ライトボックス
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
 const featureImgs = document.querySelectorAll('.feature-img');
@@ -120,7 +123,10 @@ featureImgs.forEach(img => {
     img.addEventListener('click', () => {
         const style = window.getComputedStyle(img);
         const bgImage = style.backgroundImage;
-        const url = bgImage.slice(5, -2);
+        // URLの形式が変わるので、抽出方法を調整
+        let url = bgImage.replace('url("', '').replace('")', '');
+        // ダミー画像の場合はそのまま、もし実画像でサイズ指定があれば削除
+        url = url.replace(/ixlib=.*$/, ''); 
         lightboxImg.src = url;
         lightbox.classList.add('active');
     });
@@ -131,7 +137,6 @@ lightbox.addEventListener('click', (e) => {
     }
 });
 
-// 言語切り替え
 const langSwitch = document.getElementById('lang-switch');
 const body = document.body;
 langSwitch.addEventListener('click', () => {

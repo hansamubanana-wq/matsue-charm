@@ -150,10 +150,21 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
     font-size: 2rem;
     cursor: pointer;
 }
+
+/* --- 【修正ポイント】画像のパララックス効果 --- */
 .feature-img {
+    width: 50%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    background-color: #334155;
     position: relative;
     cursor: pointer;
     transition: transform 0.3s;
+    /* これが奥行きを出す魔法の1行 */
+    background-attachment: fixed;
 }
 .feature-img:hover { transform: scale(1.02); }
 .zoom-icon {
@@ -258,14 +269,14 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
 .hero-bg {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    /* 【修正ポイント】文字のないダミー画像URLに変更しました */
     background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://placehold.co/1920x1080/1e293b/1e293b');
     background-size: cover;
     background-position: center;
-    animation: zoomIn 20s infinite alternate;
+    /* ヒーロー画像も固定して奥行きを出す */
+    background-attachment: fixed;
+    /* animation: zoomIn 20s infinite alternate; は固定と相性が悪いので削除 */
     z-index: -1;
 }
-@keyframes zoomIn { from { transform: scale(1); } to { transform: scale(1.1); } }
 
 .hero-content { display: flex; gap: 2rem; z-index: 1; }
 
@@ -312,15 +323,6 @@ main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
 }
 .feature-reverse { flex-direction: row-reverse; }
 
-.feature-img {
-    width: 50%;
-    height: 400px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 4px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    background-color: #334155;
-}
 
 .feature-text { width: 40%; }
 .feature-text h2 {
@@ -330,6 +332,20 @@ main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
     padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
 }
+
+/* --- 【修正ポイント】文字アニメーションのスタイル --- */
+.split-text span.ja span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px) rotate(5deg); /* 初期状態：少し下で傾いて透明 */
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* バネのような動き */
+}
+/* 表示された時（.visibleがついた時） */
+.feature.visible .split-text span.ja span {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg); /* 元の位置に戻る */
+}
+
 .feature-text p {
     line-height: 2;
     opacity: 0.9;
@@ -366,4 +382,9 @@ footer {
     .tategaki-main { font-size: 2.5rem; }
     .feature, .feature-reverse { flex-direction: column; gap: 2rem; }
     .feature-img, .feature-text { width: 100%; }
+    /* スマホでは画像の固定を解除（重くなるので） */
+    .feature-img { background-attachment: scroll; }
+    /* スマホでは文字アニメーションもシンプルに */
+    .split-text span.ja span { transform: none; transition: opacity 0.6s; }
+    .feature.visible .split-text span.ja span { opacity: 1; }
 }
