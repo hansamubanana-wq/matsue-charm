@@ -1,0 +1,139 @@
+/* ベース設定 */
+:root {
+    --bg-color: #0f172a; /* 深い藍色 */
+    --text-color: #f1f5f9;
+    --accent-color: #c5a059; /* 和風の金色 */
+    --font-main: 'Zen Old Mincho', serif;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+}
+
+/* ローディング */
+#loading {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease;
+}
+.logo { font-size: 2rem; letter-spacing: 0.5em; color: var(--accent-color); }
+
+/* ヒーローセクション */
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.hero-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* 仮の背景画像（宍道湖イメージ） */
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1545652973-2d2f7f9f06c1?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    animation: zoomIn 20s infinite alternate;
+    z-index: -1;
+}
+@keyframes zoomIn { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+.hero-content {
+    display: flex;
+    gap: 2rem;
+    z-index: 1;
+}
+
+/* 縦書き設定 */
+.tategaki-main {
+    writing-mode: vertical-rl;
+    font-size: 4rem;
+    letter-spacing: 0.2em;
+    margin: 0;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+.tategaki-sub {
+    writing-mode: vertical-rl;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    color: var(--accent-color);
+    border-left: 1px solid var(--accent-color);
+    padding-left: 1rem;
+}
+
+.scroll-down {
+    position: absolute;
+    bottom: 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    opacity: 0.7;
+    animation: float 2s infinite;
+}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+/* 特集エリア */
+main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    margin-bottom: 8rem;
+    opacity: 0; /* 初期状態は隠す */
+    transform: translateY(50px);
+    transition: all 1s ease-out;
+}
+.feature-reverse { flex-direction: row-reverse; }
+
+.feature-img {
+    width: 50%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.feature-text { width: 40%; }
+.feature-text h2 {
+    font-size: 2rem;
+    border-bottom: 1px solid var(--accent-color);
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.feature-text p {
+    line-height: 2;
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+/* 表示時のクラス */
+.feature.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+footer {
+    text-align: center;
+    padding: 3rem;
+    font-size: 0.8rem;
+    opacity: 0.5;
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .tategaki-main { font-size: 2.5rem; }
+    .feature, .feature-reverse { flex-direction: column; gap: 2rem; }
+    .feature-img, .feature-text { width: 100%; }
+}
