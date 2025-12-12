@@ -1,4 +1,3 @@
-// ページ読み込み完了時の処理
 window.addEventListener('load', () => {
     const loading = document.getElementById('loading');
     loading.style.opacity = 0;
@@ -26,31 +25,7 @@ document.querySelectorAll('.feature, .map-section').forEach(section => {
     observer.observe(section);
 });
 
-// マウスストーカー
-const cursor = document.getElementById('cursor');
-const stalker = document.getElementById('stalker');
-document.addEventListener('mousemove', function(e) {
-    cursor.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
-    setTimeout(function() {
-        stalker.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
-    }, 100);
-});
-
-const links = document.querySelectorAll('a, .hamburger'); // ハンバーガーにも反応させる
-links.forEach(link => {
-    link.addEventListener('mouseenter', () => {
-        stalker.style.transform += ' scale(1.5)';
-        stalker.style.borderColor = '#c5a059';
-    });
-    link.addEventListener('mouseleave', () => {
-        stalker.style.transform = stalker.style.transform.replace(' scale(1.5)', '');
-        stalker.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-    });
-});
-
-// ▼▼▼ 今回の新機能 ▼▼▼
-
-// 1. ハンバーガーメニューの開閉
+// ハンバーガーメニュー
 const hamburger = document.querySelector('.hamburger');
 const nav = document.querySelector('.global-nav');
 const navLinks = document.querySelectorAll('.global-nav a');
@@ -60,7 +35,6 @@ hamburger.addEventListener('click', () => {
     nav.classList.toggle('active');
 });
 
-// メニューのリンクを押したら、メニューを閉じる
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         hamburger.classList.remove('active');
@@ -68,23 +42,65 @@ navLinks.forEach(link => {
     });
 });
 
-// 2. スクロールインジケーター & トップへ戻るボタン
+// スクロールインジケーター & トップへ戻る
 const progressBar = document.getElementById('progress-bar');
 const backToTop = document.getElementById('back-to-top');
 
 window.addEventListener('scroll', () => {
-    // スクロール量の計算
     const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrollCurrent = document.documentElement.scrollTop;
     
-    // パーセント計算
     const scrollPercent = (scrollCurrent / scrollTotal) * 100;
     progressBar.style.width = scrollPercent + '%';
 
-    // トップへ戻るボタンの表示/非表示
     if (scrollCurrent > 500) {
         backToTop.classList.add('visible');
     } else {
         backToTop.classList.remove('visible');
+    }
+});
+
+// ▼▼▼ 今回の追加機能 ▼▼▼
+
+// 1. ライトボックス（画像拡大）
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const closeLightbox = document.getElementById('close-lightbox');
+const featureImgs = document.querySelectorAll('.feature-img');
+
+// 画像をクリックした時の処理
+featureImgs.forEach(img => {
+    img.addEventListener('click', () => {
+        // 背景画像のURLを取得して、拡大用画像のsrcにセット
+        const style = window.getComputedStyle(img);
+        const bgImage = style.backgroundImage;
+        // url("...") の形からURLだけ抜き出す
+        const url = bgImage.slice(5, -2);
+        
+        lightboxImg.src = url;
+        lightbox.classList.add('active');
+    });
+});
+
+// 閉じるボタンか背景をクリックしたら閉じる
+lightbox.addEventListener('click', (e) => {
+    if (e.target !== lightboxImg) {
+        lightbox.classList.remove('active');
+    }
+});
+
+
+// 2. 言語切り替え（JP / EN）
+const langSwitch = document.getElementById('lang-switch');
+const body = document.body;
+
+langSwitch.addEventListener('click', () => {
+    body.classList.toggle('en-mode');
+    
+    // ボタンの文字を変える
+    if (body.classList.contains('en-mode')) {
+        langSwitch.textContent = 'JP';
+    } else {
+        langSwitch.textContent = 'EN';
     }
 });
