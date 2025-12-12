@@ -26,30 +26,65 @@ document.querySelectorAll('.feature, .map-section').forEach(section => {
     observer.observe(section);
 });
 
-// ▼ ここから下が新機能（マウスストーカー）
+// マウスストーカー
 const cursor = document.getElementById('cursor');
 const stalker = document.getElementById('stalker');
-
-// マウスが動いた時の処理
 document.addEventListener('mousemove', function(e) {
-    // カーソル（中心の点）はマウス座標に即座に移動
     cursor.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
-    
-    // ストーカー（外側の輪）は少し遅れてついてくる
     setTimeout(function() {
         stalker.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
     }, 100);
 });
 
-// リンクに乗った時に少し大きくする演出
-const links = document.querySelectorAll('a');
+const links = document.querySelectorAll('a, .hamburger'); // ハンバーガーにも反応させる
 links.forEach(link => {
     link.addEventListener('mouseenter', () => {
         stalker.style.transform += ' scale(1.5)';
-        stalker.style.borderColor = '#c5a059'; // 色を金色に
+        stalker.style.borderColor = '#c5a059';
     });
     link.addEventListener('mouseleave', () => {
         stalker.style.transform = stalker.style.transform.replace(' scale(1.5)', '');
-        stalker.style.borderColor = 'rgba(255, 255, 255, 0.5)'; // 元に戻す
+        stalker.style.borderColor = 'rgba(255, 255, 255, 0.5)';
     });
+});
+
+// ▼▼▼ 今回の新機能 ▼▼▼
+
+// 1. ハンバーガーメニューの開閉
+const hamburger = document.querySelector('.hamburger');
+const nav = document.querySelector('.global-nav');
+const navLinks = document.querySelectorAll('.global-nav a');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    nav.classList.toggle('active');
+});
+
+// メニューのリンクを押したら、メニューを閉じる
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+    });
+});
+
+// 2. スクロールインジケーター & トップへ戻るボタン
+const progressBar = document.getElementById('progress-bar');
+const backToTop = document.getElementById('back-to-top');
+
+window.addEventListener('scroll', () => {
+    // スクロール量の計算
+    const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollCurrent = document.documentElement.scrollTop;
+    
+    // パーセント計算
+    const scrollPercent = (scrollCurrent / scrollTotal) * 100;
+    progressBar.style.width = scrollPercent + '%';
+
+    // トップへ戻るボタンの表示/非表示
+    if (scrollCurrent > 500) {
+        backToTop.classList.add('visible');
+    } else {
+        backToTop.classList.remove('visible');
+    }
 });

@@ -1,4 +1,3 @@
-/* ベース設定 */
 :root {
     --bg-color: #0f172a;
     --text-color: #f1f5f9;
@@ -6,9 +5,7 @@
     --font-main: 'Zen Old Mincho', serif;
 }
 
-html {
-    scroll-behavior: smooth; /* ヌルっとスクロールさせる設定 */
-}
+html { scroll-behavior: smooth; }
 
 body {
     margin: 0;
@@ -16,15 +13,112 @@ body {
     color: var(--text-color);
     font-family: var(--font-main);
     overflow-x: hidden;
-    cursor: none; /* デフォルトのマウスカーソルを消す */
+    cursor: none;
 }
 
-/* マウスストーカーの設定 */
+/* --- プログレスバー --- */
+#progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    background: var(--accent-color);
+    width: 0%; /* JSでここを動かす */
+    z-index: 10000;
+    transition: width 0.1s;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* --- ハンバーガーメニュー --- */
+.hamburger {
+    position: fixed;
+    top: 20px; right: 20px;
+    width: 50px; height: 50px;
+    cursor: pointer;
+    z-index: 10001; /* 一番手前 */
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+.hamburger:hover { background: var(--accent-color); }
+.hamburger span {
+    width: 25px; height: 2px;
+    background: #fff;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+}
+/* メニューが開いている時のボタン変形 */
+.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* メニュー画面 */
+.global-nav {
+    position: fixed;
+    top: 0; right: 0;
+    width: 100%; height: 100vh;
+    background: rgba(15, 23, 42, 0.95);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none; /* 見えてない時はクリック不可 */
+    transition: opacity 0.5s ease;
+}
+.global-nav.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.global-nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+.global-nav li { margin: 2rem 0; }
+.global-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    cursor: none; /* カーソル維持 */
+}
+.global-nav a:hover { color: var(--accent-color); }
+
+/* --- トップへ戻るボタン --- */
+#back-to-top {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    width: 50px; height: 50px;
+    background: var(--accent-color);
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    opacity: 0; /* 最初は隠す */
+    pointer-events: none;
+    transition: opacity 0.5s;
+    font-weight: bold;
+    z-index: 9000;
+    cursor: none;
+}
+#back-to-top.visible {
+    opacity: 0.8;
+    pointer-events: auto;
+}
+#back-to-top:hover { opacity: 1; }
+
+/* --- 既存のスタイル --- */
 #cursor, #stalker {
     position: fixed;
     top: 0; left: 0;
     border-radius: 50%;
-    pointer-events: none; /* クリックの邪魔をしない */
+    pointer-events: none;
     z-index: 9999;
 }
 #cursor {
@@ -37,10 +131,9 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.5);
     background-color: rgba(255, 255, 255, 0.05);
     transform: translate(-50%, -50%);
-    transition: transform 0.1s ease-out; /* 遅れてついてくる設定 */
+    transition: transform 0.1s ease-out;
 }
 
-/* ローディング */
 #loading {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -53,7 +146,6 @@ body {
 }
 .logo { font-size: 2rem; letter-spacing: 0.5em; color: var(--accent-color); }
 
-/* ヒーローセクション */
 .hero {
     height: 100vh;
     position: relative;
@@ -73,13 +165,8 @@ body {
 }
 @keyframes zoomIn { from { transform: scale(1); } to { transform: scale(1.1); } }
 
-.hero-content {
-    display: flex;
-    gap: 2rem;
-    z-index: 1;
-}
+.hero-content { display: flex; gap: 2rem; z-index: 1; }
 
-/* 縦書き設定 */
 .tategaki-main {
     writing-mode: vertical-rl;
     font-size: 4rem;
@@ -96,7 +183,6 @@ body {
     padding-left: 1rem;
 }
 
-/* スクロールダウンボタン */
 .scroll-down {
     position: absolute;
     bottom: 2rem;
@@ -106,12 +192,11 @@ body {
     animation: float 2s infinite;
     color: white;
     text-decoration: none;
-    cursor: none; /* リンク上もカスタムカーソル */
+    cursor: none;
     z-index: 10;
 }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
 
-/* 特集エリア */
 main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
 
 .feature {
@@ -122,6 +207,7 @@ main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
     opacity: 0;
     transform: translateY(50px);
     transition: all 1s ease-out;
+    scroll-margin-top: 100px; /* リンクで飛んだ時のズレ修正 */
 }
 .feature-reverse { flex-direction: row-reverse; }
 
@@ -132,7 +218,7 @@ main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
     background-position: center;
     border-radius: 4px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    background-color: #334155; /* 画像がない時のための背景色 */
+    background-color: #334155;
 }
 
 .feature-text { width: 40%; }
@@ -149,7 +235,6 @@ main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
     font-size: 0.95rem;
 }
 
-/* マップセクション */
 .map-section {
     text-align: center;
     margin-bottom: 5rem;
@@ -157,51 +242,29 @@ main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
     transform: translateY(50px);
     transition: all 1s ease-out;
 }
-.map-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    letter-spacing: 0.2em;
-}
+.map-section h2 { font-size: 1.5rem; margin-bottom: 2rem; letter-spacing: 0.2em; }
 .map-container iframe {
-    filter: grayscale(100%) invert(90%); /* 地図をサイトに合わせて暗くする */
+    filter: grayscale(100%) invert(90%);
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-.feature.visible, .map-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+.feature.visible, .map-section.visible { opacity: 1; transform: translateY(0); }
 
-/* フッター */
 footer {
     text-align: center;
     padding: 5rem 1rem;
     background-color: #020617;
     border-top: 1px solid rgba(255,255,255,0.1);
 }
-.footer-content h3 {
-    font-size: 1.5rem;
-    letter-spacing: 0.2em;
-    margin-bottom: 0.5rem;
-    color: var(--accent-color);
-}
-.footer-content p {
-    font-size: 0.9rem;
-    opacity: 0.6;
-}
-.copyright {
-    margin-top: 2rem;
-    font-size: 0.7rem;
-    opacity: 0.4;
-}
+.footer-content h3 { font-size: 1.5rem; letter-spacing: 0.2em; margin-bottom: 0.5rem; color: var(--accent-color); }
+.footer-content p { font-size: 0.9rem; opacity: 0.6; }
+.copyright { margin-top: 2rem; font-size: 0.7rem; opacity: 0.4; }
 
-/* モバイル対応 */
 @media (max-width: 768px) {
     .tategaki-main { font-size: 2.5rem; }
     .feature, .feature-reverse { flex-direction: column; gap: 2rem; }
     .feature-img, .feature-text { width: 100%; }
-    /* スマホではカスタムカーソルを消す（邪魔になるため） */
     body { cursor: auto; }
     #cursor, #stalker { display: none; }
 }
