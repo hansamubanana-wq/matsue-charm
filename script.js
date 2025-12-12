@@ -1,11 +1,7 @@
 window.addEventListener('load', () => {
     const loading = document.getElementById('loading');
-    setTimeout(() => {
-        loading.classList.add('loaded');
-    }, 500);
-    setTimeout(() => {
-        loading.style.display = 'none';
-    }, 2500);
+    setTimeout(() => { loading.classList.add('loaded'); }, 500);
+    setTimeout(() => { loading.style.display = 'none'; }, 2500);
 });
 
 const canvas = document.getElementById('bg-canvas');
@@ -30,10 +26,7 @@ class Particle {
     }
     update() {
         this.y -= this.speedY;
-        if (this.y < 0) {
-            this.y = height;
-            this.x = Math.random() * width;
-        }
+        if (this.y < 0) { this.y = height; this.x = Math.random() * width; }
     }
     draw() {
         ctx.fillStyle = this.color;
@@ -44,17 +37,12 @@ class Particle {
 }
 function initParticles() {
     particles = [];
-    for (let i = 0; i < 80; i++) {
-        particles.push(new Particle());
-    }
+    for (let i = 0; i < 80; i++) { particles.push(new Particle()); }
 }
 initParticles();
 function animate() {
     ctx.clearRect(0, 0, width, height);
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
+    particles.forEach(p => { p.update(); p.draw(); });
     requestAnimationFrame(animate);
 }
 animate();
@@ -62,44 +50,60 @@ animate();
 const splitTexts = document.querySelectorAll('.split-text .ja');
 splitTexts.forEach(textBlock => {
     const chars = textBlock.querySelectorAll('span');
-    chars.forEach((char, index) => {
-        char.style.transitionDelay = `${index * 0.05}s`;
-    });
+    chars.forEach((char, index) => { char.style.transitionDelay = `${index * 0.05}s`; });
 });
 
-// ▼▼▼ 【追加】3D Tilt Effect の処理 ▼▼▼
 const tiltImages = document.querySelectorAll('.feature-img');
 tiltImages.forEach(img => {
     img.addEventListener('mousemove', (e) => {
-        // 画像の中心からのマウス位置を計算
         const rect = img.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        // 中心を0とした座標に変換
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const deltaX = x - centerX;
-        const deltaY = y - centerY;
-        // 傾きの角度を計算（数字を変えると傾き具合が変わる）
-        const rotateX = (deltaY / centerY) * -10; // 上下
-        const rotateY = (deltaX / centerX) * 10;  // 左右
-
-        // スタイルを適用（少し拡大して浮き上がらせる）
+        const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+        const centerX = rect.width / 2; const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
         img.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-        img.style.transition = 'transform 0.1s'; // 滑らかに追従
+        img.style.transition = 'transform 0.1s';
     });
-
-    // マウスが外れたら元に戻す
     img.addEventListener('mouseleave', () => {
         img.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-        img.style.transition = 'transform 0.5s ease-out'; // ふわっと戻る
+        img.style.transition = 'transform 0.5s ease-out';
     });
 });
 
+// ▼▼▼ 【新機能】カウントアップアニメーション ▼▼▼
+const statsSection = document.querySelector('.stats-section');
+const statNumbers = document.querySelectorAll('.stat-number');
+let started = false; // 一回だけ実行するためのフラグ
 
-const observerOptions = {
-    root: null, rootMargin: '0px', threshold: 0.2
-};
+const statsObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !started) {
+        started = true;
+        statsSection.classList.add('visible'); // フェードイン
+        
+        statNumbers.forEach(num => {
+            const target = +num.getAttribute('data-target'); // 目標値
+            const speed = 200; // 速度（大きいほどゆっくり）
+            const increment = target / speed;
+            
+            const updateCount = () => {
+                const count = +num.innerText;
+                if (count < target) {
+                    num.innerText = Math.ceil(count + increment);
+                    setTimeout(updateCount, 20); // 20msごとに更新
+                } else {
+                    num.innerText = target; // 最後はきっちり目標値にする
+                }
+            };
+            updateCount();
+        });
+    }
+});
+if (statsSection) {
+    statsObserver.observe(statsSection);
+}
+
+// 既存のObserver（feature用）
+const observerOptions = { root: null, rootMargin: '0px', threshold: 0.2 };
 const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -115,16 +119,8 @@ document.querySelectorAll('.feature, .map-section').forEach(section => {
 const hamburger = document.querySelector('.hamburger');
 const nav = document.querySelector('.global-nav');
 const navLinks = document.querySelectorAll('.global-nav a');
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    nav.classList.toggle('active');
-});
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        nav.classList.remove('active');
-    });
-});
+hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); nav.classList.toggle('active'); });
+navLinks.forEach(link => { link.addEventListener('click', () => { hamburger.classList.remove('active'); nav.classList.remove('active'); }); });
 
 const progressBar = document.getElementById('progress-bar');
 const backToTop = document.getElementById('back-to-top');
@@ -133,11 +129,7 @@ window.addEventListener('scroll', () => {
     const scrollCurrent = document.documentElement.scrollTop;
     const scrollPercent = (scrollCurrent / scrollTotal) * 100;
     progressBar.style.width = scrollPercent + '%';
-    if (scrollCurrent > 500) {
-        backToTop.classList.add('visible');
-    } else {
-        backToTop.classList.remove('visible');
-    }
+    if (scrollCurrent > 500) { backToTop.classList.add('visible'); } else { backToTop.classList.remove('visible'); }
 });
 
 const lightbox = document.getElementById('lightbox');
@@ -153,19 +145,11 @@ featureImgs.forEach(img => {
         lightbox.classList.add('active');
     });
 });
-lightbox.addEventListener('click', (e) => {
-    if (e.target !== lightboxImg) {
-        lightbox.classList.remove('active');
-    }
-});
+lightbox.addEventListener('click', (e) => { if (e.target !== lightboxImg) { lightbox.classList.remove('active'); } });
 
 const langSwitch = document.getElementById('lang-switch');
 const body = document.body;
 langSwitch.addEventListener('click', () => {
     body.classList.toggle('en-mode');
-    if (body.classList.contains('en-mode')) {
-        langSwitch.textContent = 'JP';
-    } else {
-        langSwitch.textContent = 'EN';
-    }
+    if (body.classList.contains('en-mode')) { langSwitch.textContent = 'JP'; } else { langSwitch.textContent = 'EN'; }
 });
