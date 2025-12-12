@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
+    <div id="cursor"></div>
+    <div id="stalker"></div>
 
     <div id="loading">
         <div class="logo">松江</div>
@@ -21,12 +24,12 @@
             <p class="tategaki-sub">島根県・松江市</p>
             <h1 class="tategaki-main">水の都、<br>時を忘れる旅。</h1>
         </div>
-        <div class="scroll-down">SCROLL</div>
+        <a href="#main-content" class="scroll-down">SCROLL</a>
     </header>
 
-    <main>
+    <main id="main-content">
         <section class="feature fade-in">
-            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d2/Matsue_Castle_keep_tower_20190410.jpg');"></div>
+            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d2/Matsue_Castle_keep_tower_20190410.jpg'); background-color: #1e293b;"></div>
             <div class="feature-text">
                 <h2>国宝 松江城</h2>
                 <p>千鳥が羽を広げたような優美な姿から「千鳥城」とも呼ばれる現存天守。400年の時を超え、城下町を見守り続ける松江のシンボル。</p>
@@ -34,7 +37,7 @@
         </section>
 
         <section class="feature feature-reverse fade-in">
-            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3e/Lake_Shinji_sunset_view_from_Shimane_Art_Museum_20100912.jpg');"></div>
+            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/3e/Lake_Shinji_sunset_view_from_Shimane_Art_Museum_20100912.jpg'); background-color: #1e293b;"></div>
             <div class="feature-text">
                 <h2>日本一の夕日</h2>
                 <p>宍道湖（しんじこ）を茜色に染める夕景は、日本夕陽百選にも選ばれた絶景。刻一刻と変わる空の色と、湖面の輝きが心を洗う。</p>
@@ -42,7 +45,7 @@
         </section>
 
         <section class="feature fade-in">
-            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/7f/Matcha_at_Meimei-an.jpg');"></div>
+            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/7f/Matcha_at_Meimei-an.jpg'); background-color: #1e293b;"></div>
             <div class="feature-text">
                 <h2>茶の湯と和菓子</h2>
                 <p>松平不昧公（ふまいこう）が愛した茶の湯文化が息づく街。日常の中で楽しむ抹茶と、四季折々の美しい和菓子を味わう贅沢。</p>
@@ -50,7 +53,7 @@
         </section>
 
         <section class="feature feature-reverse fade-in">
-            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/40/Horikawa_Meguri_Pleasure_Boat_Matsue.jpg');"></div>
+            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/40/Horikawa_Meguri_Pleasure_Boat_Matsue.jpg'); background-color: #1e293b;"></div>
             <div class="feature-text">
                 <h2>堀川めぐり</h2>
                 <p>国宝松江城の堀を小舟でめぐる、優雅なひととき。冬には「こたつ船」も登場し、水面から見上げる城下町の風情は、歩く景色とは一味違う。</p>
@@ -58,7 +61,7 @@
         </section>
 
         <section class="feature fade-in">
-            <div class="feature-img" style="background-image: url('https://images.unsplash.com/photo-1552611052-33e04de081de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');"></div>
+            <div class="feature-img" style="background-image: url('https://images.unsplash.com/photo-1552611052-33e04de081de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); background-color: #1e293b;"></div>
             <div class="feature-text">
                 <h2>出雲そば</h2>
                 <p>日本三大そばの一つ。玄そば（殻つき）をそのまま挽くため、色が黒く香りが強いのが特徴。朱塗りの丸い器「割子（わりご）」で食べるのが松江流。</p>
@@ -66,10 +69,17 @@
         </section>
 
         <section class="feature feature-reverse fade-in">
-            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/9d/Yaegaki_jinja.jpg');"></div>
+            <div class="feature-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/9d/Yaegaki_jinja.jpg'); background-color: #1e293b;"></div>
             <div class="feature-text">
                 <h2>神話の縁結び</h2>
                 <p>八重垣神社の「鏡の池」は、和紙に硬貨を浮かべて縁を占う神秘の場所。沈む早さが縁の早さ。静寂な森の中で、自らの運命と向き合う。</p>
+            </div>
+        </section>
+
+        <section class="map-section fade-in">
+            <div class="map-container">
+                <h2>Access to Matsue Castle</h2>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.563063539744!2d133.04808537637883!3d35.44192297266567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x355704fa7e26867b%3A0xc391e92d774f514!2z5p2-5rGf5Z-O!5e0!3m2!1sja!2sjp!4v1709600000000!5m2!1sja!2sjp" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </section>
     </main>
