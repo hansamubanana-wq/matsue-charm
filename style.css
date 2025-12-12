@@ -23,15 +23,11 @@ body {
 
 /* 無限スライダー */
 .slider-area {
-    width: 100%;
-    overflow: hidden;
-    background: #020617;
-    padding: 2rem 0;
-    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    width: 100%; overflow: hidden; background: #020617;
+    padding: 2rem 0; border-bottom: 1px solid rgba(197, 160, 89, 0.2);
 }
 .slider-track {
-    display: flex;
-    width: calc(300px * 12);
+    display: flex; width: calc(300px * 12);
     animation: scroll-slide 40s linear infinite;
 }
 .slide { width: 300px; padding: 0 10px; }
@@ -48,6 +44,26 @@ body {
 
 /* 背景キャンバス */
 #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; pointer-events: none; }
+
+/* ▼▼▼ 【追加】フィルムノイズ --- */
+#film-grain {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -5; pointer-events: none; opacity: 0.06;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWjAAAAG1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANyk7hAAAACHRSTlMABg8XJC00P2j5+sQAAAC0SURBVDjLjZExDkAxCIQ9A+cR+v9P2tYmRbbjGgY1+AASIGYY8h02Kz6X0m3gJ+R+U0rS8x4H2j8t/c2/E+t36Z04l3O6t8w353Y9j4s4r8n5Oq/b+XoP+x6X8/3eH8/H/P8/7z//98+5n897fs/v/fH8/9/74/n/f97//O+fcj+f9/ye3/vj+T+/98fz//+8//nfP+V+Pu/5Pb/3x/N/fu+P5///vP/53z/lfj7v+T2/98fz736XG0jYF47rAAAAAElFTkSuQmCC');
+    animation: grain 0.5s steps(10) infinite;
+}
+@keyframes grain {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-1%, -1%); }
+    20% { transform: translate(1%, 1%); }
+    30% { transform: translate(-2%, -2%); }
+    40% { transform: translate(2%, 2%); }
+    50% { transform: translate(-1%, 1%); }
+    60% { transform: translate(1%, -1%); }
+    70% { transform: translate(2%, 1%); }
+    80% { transform: translate(-2%, 2%); }
+    90% { transform: translate(2%, -2%); }
+}
 
 /* オープニング */
 #loading {
@@ -178,21 +194,7 @@ body.en-mode .tategaki-sub { font-size: 1.2rem; }
 
 main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
 
-/* ▼▼▼ 【新スタイル】数字カウンター ▼▼▼ */
-.stats-section {
-    display: flex; justify-content: space-around; flex-wrap: wrap;
-    padding: 4rem 1rem; margin-bottom: 5rem;
-    opacity: 0; transform: translateY(50px); transition: all 1s ease-out;
-}
-.stats-section.visible { opacity: 1; transform: translateY(0); }
-.stat-box { text-align: center; margin: 1rem; }
-.stat-number {
-    font-size: 4rem; font-weight: bold; color: var(--accent-color);
-    font-family: sans-serif;
-}
-.stat-label { font-size: 0.9rem; opacity: 0.8; letter-spacing: 0.1em; }
-
-/* ▼▼▼ 【新スタイル】磨りガラス（Glassmorphism） ▼▼▼ */
+/* 磨りガラス（Glassmorphism） */
 .feature {
     display: flex; align-items: center; gap: 4rem; margin-bottom: 8rem;
     opacity: 0; transform: translateY(50px); transition: all 1s ease-out; scroll-margin-top: 100px;
@@ -201,11 +203,10 @@ main { padding: 5rem 1rem; max-width: 1000px; margin: 0 auto; }
 
 .feature-text {
     width: 40%;
-    /* 磨りガラスの設定 */
-    background: rgba(255, 255, 255, 0.05); /* 薄い白 */
-    backdrop-filter: blur(10px); /* ぼかし */
-    -webkit-backdrop-filter: blur(10px); /* Safari用 */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* 薄い枠線 */
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
